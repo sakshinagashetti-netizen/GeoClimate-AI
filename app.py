@@ -66,7 +66,7 @@ def initialize_earth_engine():
             {
                 "type": "service_account",
                 "project_id": st.secrets["GEE_PROJECT_ID"],
-                "private_key": st.secrets["GEE_PRIVATE_KEY"].replace("\\n", "\n"),
+                "private_key": st.secrets["GEE_PRIVATE_KEY"],
                 "client_email": st.secrets["GEE_CLIENT_EMAIL"],
                 "token_uri": "https://oauth2.googleapis.com/token",
             },
