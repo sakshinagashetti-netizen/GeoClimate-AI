@@ -62,24 +62,23 @@ if "analysis_geometry" not in st.session_state:
 def initialize_earth_engine():
 
     try:
+    credentials = service_account.Credentials.from_service_account_info(
+        {
+            "type": "service_account",
+            "project_id": st.secrets["GEE_PROJECT_ID"],
+            "private_key": st.secrets["GEE_PRIVATE_KEY"].replace("\\n", "\n"),
+            "client_email": st.secrets["GEE_CLIENT_EMAIL"],
+            "token_uri": "https://oauth2.googleapis.com/token",
+        },
+        scopes=["https://www.googleapis.com/auth/earthengine"],
+    )
 
-        credentials = service_account.Credentials.from_service_account_info(
-    {
-        "type": "service_account",
-        "project_id": st.secrets["GEE_PROJECT_ID"],
-        "private_key": st.secrets["GEE_PRIVATE_KEY"].replace("\\n", "\n"),
-        "client_email": st.secrets["GEE_CLIENT_EMAIL"],
-        "token_uri": "https://oauth2.googleapis.com/token",
-    },
-    scopes=["https://www.googleapis.com/auth/earthengine"],
-)
+    ee.Initialize(
+        credentials=credentials,
+        project=st.secrets["GEE_PROJECT_ID"]
+    )
 
-ee.Initialize(
-    credentials=credentials,
-    project=st.secrets["GEE_PROJECT_ID"]
-)
-        return True
-
+    return True
     except Exception as error:
 
         st.error("Google Earth Engine could not be initialized.")
